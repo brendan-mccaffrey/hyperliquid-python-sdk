@@ -1,32 +1,32 @@
-import eth_account
 import logging
 import secrets
 
+import eth_account
 from eth_account.signers.local import LocalAccount
 
 from hyperliquid.api import API
 from hyperliquid.info import Info
 from hyperliquid.utils.constants import MAINNET_API_URL
 from hyperliquid.utils.signing import (
-    CancelRequest,
     CancelByCloidRequest,
+    CancelRequest,
     ModifyRequest,
+    OidOrCloid,
     OrderRequest,
     OrderType,
     OrderWire,
-    OidOrCloid,
     ScheduleCancelAction,
     float_to_usd_int,
     get_timestamp_ms,
     order_request_to_order_wire,
     order_wires_to_order_action,
-    sign_l1_action,
-    sign_usd_transfer_action,
-    sign_spot_transfer_action,
-    sign_withdraw_from_bridge_action,
     sign_agent,
+    sign_l1_action,
+    sign_spot_transfer_action,
+    sign_usd_transfer_action,
+    sign_withdraw_from_bridge_action,
 )
-from hyperliquid.utils.types import Any, List, Meta, SpotMeta, Optional, Tuple, Cloid
+from hyperliquid.utils.types import Any, Cloid, List, Meta, Optional, SpotMeta, Tuple
 
 
 class Exchange(API):
@@ -428,6 +428,28 @@ class Exchange(API):
             timestamp,
         )
 
+    def vault_transfer(self, vaultAddress: str, is_deposit: bool, usd: float) -> Any:
+        usd = int(round(usd, 2) * 1e6)
+        timestamp = get_timestamp_ms()
+        vault_transfer_action = {
+            "type": "vaultTransfer",
+            "vaultAddress": vaultAddress,
+            "isDeposit": is_deposit,
+            "usd": usd,
+        }
+        signature = sign_l1_action(
+            self.wallet,
+            vault_transfer_action,
+            None,
+            timestamp,
+            self.base_url == MAINNET_API_URL,
+        )
+        return self._post_action(
+            vault_transfer_action,
+            signature,
+            timestamp,
+        )
+
     def usd_transfer(self, amount: float, destination: str) -> Any:
         timestamp = get_timestamp_ms()
         action = {"destination": destination, "amount": str(amount), "time": timestamp, "type": "usdSend"}
@@ -441,8 +463,13 @@ class Exchange(API):
 
     def spot_transfer(self, amount: float, destination: str, token: str) -> Any:
         timestamp = get_timestamp_ms()
-        action = {"destination": destination, "amount": str(
-            amount), "token": token, "time": timestamp, "type": "spotSend"}
+        action = {
+            "destination": destination,
+            "amount": str(amount),
+            "token": token,
+            "time": timestamp,
+            "type": "spotSend",
+        }
         is_mainnet = self.base_url == MAINNET_API_URL
         signature = sign_spot_transfer_action(self.wallet, action, is_mainnet)
         return self._post_action(

@@ -16,10 +16,13 @@ SDK for Hyperliquid API trading with Python.
 </div>
 
 ## Installation
+
 ```bash
 pip install hyperliquid-python-sdk
 ```
+
 ## Usage Examples
+
 ```python
 from hyperliquid.info import Info
 from hyperliquid.utils import constants
@@ -28,7 +31,9 @@ info = Info(constants.TESTNET_API_URL, skip_ws=True)
 user_state = info.user_state("0xcd5051944f780a621ee62e39e493c489668acf4d")
 print(user_state)
 ```
-See [examples](examples) for more complete examples. You can also checkout the repo and run any of the examples after configuring your private key e.g. 
+
+See [examples](examples) for more complete examples. You can also checkout the repo and run any of the examples after configuring your private key e.g.
+
 ```bash
 cp examples/config.json.example examples/config.json
 vim examples/config.json
@@ -40,7 +45,8 @@ python examples/basic_order.py
 1. Download `Poetry`: https://python-poetry.org/. Note that in the install script you might have to set `symlinks=True` in `venv.EnvBuilder`.
 
 2. Point poetry to correct version of python. For development we require python 3.10 exactly. Some dependencies have issues on 3.11, while older versions don't have correct typing support.
-`brew install python@3.10 && poetry env use /opt/homebrew/Cellar/python@3.10/3.10.10_1/bin/python3.10`
+   `brew install python@3.10 && poetry env use /opt/homebrew/Cellar/python@3.10/3.10.10_1/bin/python3.10`
+   **Note** I updated some packages and using python 3.12.6 so...
 
 3. Install dependencies:
 
@@ -169,14 +175,14 @@ We follow the [Semantic Versions](https://semver.org/) specification and use [`R
 
 ### List of labels and corresponding titles
 
-|               **Label**               |  **Title in Releases**  |
-| :-----------------------------------: | :---------------------: |
-|       `enhancement`, `feature`        |        Features         |
-| `bug`, `refactoring`, `bugfix`, `fix` |  Fixes & Refactoring    |
-|       `build`, `ci`, `testing`        |  Build System & CI/CD   |
-|              `breaking`               |    Breaking Changes     |
-|            `documentation`            |     Documentation       |
-|            `dependencies`             |  Dependencies updates   |
+|               **Label**               | **Title in Releases** |
+| :-----------------------------------: | :-------------------: |
+|       `enhancement`, `feature`        |       Features        |
+| `bug`, `refactoring`, `bugfix`, `fix` |  Fixes & Refactoring  |
+|       `build`, `ci`, `testing`        | Build System & CI/CD  |
+|              `breaking`               |   Breaking Changes    |
+|            `documentation`            |     Documentation     |
+|            `dependencies`             | Dependencies updates  |
 
 ### Building and releasing
 
@@ -205,6 +211,7 @@ This project is licensed under the terms of the `MIT` license. See [LICENSE](LIC
 ## Terms
 
 By using this package you agree to the Terms of Use. See [TERMS](TERMS.md) for more details.
+
 ## Credits
 
 This project was generated with [`python-package-template`](https://github.com/TezRomacH/python-package-template).

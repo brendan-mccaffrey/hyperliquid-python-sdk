@@ -1,11 +1,11 @@
 import time
-
 from decimal import Decimal
-from eth_account.messages import encode_structured_data
-from eth_utils import keccak, to_hex
-import msgpack
 
-from hyperliquid.utils.types import Literal, Optional, TypedDict, Union, Cloid, NotRequired
+import msgpack
+from eth_account.messages import encode_typed_data
+from eth_utils import keccak, to_hex
+
+from hyperliquid.utils.types import Cloid, Literal, NotRequired, Optional, TypedDict, Union
 
 Tif = Union[Literal["Alo"], Literal["Ioc"], Literal["Gtc"]]
 Tpsl = Union[Literal["tp"], Literal["sl"]]
@@ -223,7 +223,7 @@ def sign_agent(wallet, action, is_mainnet):
 
 
 def sign_inner(wallet, data):
-    structured_data = encode_structured_data(data)
+    structured_data = encode_typed_data(full_message=data)
     signed = wallet.sign_message(structured_data)
     return {"r": to_hex(signed["r"]), "s": to_hex(signed["s"]), "v": signed["v"]}
 
