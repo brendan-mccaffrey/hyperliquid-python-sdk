@@ -44,9 +44,8 @@ python examples/basic_order.py
 
 1. Download `Poetry`: https://python-poetry.org/. Note that in the install script you might have to set `symlinks=True` in `venv.EnvBuilder`.
 
-2. Point poetry to correct version of python. For development we require python 3.10 exactly. Some dependencies have issues on 3.11, while older versions don't have correct typing support.
+2. _Not sure if this is necessary anymore:_ Point poetry to correct version of python. For development we require python 3.10 exactly. Some dependencies have issues on 3.11, while older versions don't have correct typing support.
    `brew install python@3.10 && poetry env use /opt/homebrew/Cellar/python@3.10/3.10.10_1/bin/python3.10`
-   **Note** I updated some packages and using python 3.12.6 so...
 
 3. Install dependencies:
 
